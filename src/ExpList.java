@@ -193,4 +193,40 @@ public class ExpList<E> implements Iterable<E> {
             Iterator.super.forEachRemaining(action);
         }
     }
+
+    /**нельзя перегрузить одну и ту же функцию дважды, поэтому эта не перегружена*/
+
+    public Iterator<E> reverseIterator() {
+        return new ReverseExpListIterator();
+    }
+
+    private class ReverseExpListIterator implements Iterator<E> {
+        private int curIndex = size - 1;
+
+        @Override
+        public boolean hasNext() {
+            return curIndex >= 0;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return (E) elementData[curIndex--];
+        }
+
+        @Override
+        public void remove() {
+            Iterator.super.remove();
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super E> action) {
+            Iterator.super.forEachRemaining(action);
+        }
+    }
+    /**не представляю, как реализовать end() на джаве, но его аналогом частично может выступить hasNext(), за тем исключением, что end()
+     * выставляет маркер на позиции после последнего элемента, а hasNext() определяет, есть ли следующий элемент,
+     * с rend() - такая же ситуация, но используем reverseIterator()*/
 }
